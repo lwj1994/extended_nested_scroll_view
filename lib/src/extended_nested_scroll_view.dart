@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_cast
 
 import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../extended_nested_scroll_view.dart';
+
 part 'extended_nested_scroll_view_part.dart';
 
 // ignore_for_file: unnecessary_null_comparison, always_put_control_body_on_new_line
@@ -750,6 +752,7 @@ class _NestedScrollMetrics extends FixedScrollMetrics {
     required this.minRange,
     required this.maxRange,
     required this.correctionOffset,
+    required super.devicePixelRatio,
   });
 
   @override
@@ -762,20 +765,21 @@ class _NestedScrollMetrics extends FixedScrollMetrics {
     double? minRange,
     double? maxRange,
     double? correctionOffset,
+    double? devicePixelRatio,
   }) {
     return _NestedScrollMetrics(
-      minScrollExtent: minScrollExtent ??
-          (hasContentDimensions ? this.minScrollExtent : null),
-      maxScrollExtent: maxScrollExtent ??
-          (hasContentDimensions ? this.maxScrollExtent : null),
-      pixels: pixels ?? (hasPixels ? this.pixels : null),
-      viewportDimension: viewportDimension ??
-          (hasViewportDimension ? this.viewportDimension : null),
-      axisDirection: axisDirection ?? this.axisDirection,
-      minRange: minRange ?? this.minRange,
-      maxRange: maxRange ?? this.maxRange,
-      correctionOffset: correctionOffset ?? this.correctionOffset,
-    );
+        minScrollExtent: minScrollExtent ??
+            (hasContentDimensions ? this.minScrollExtent : null),
+        maxScrollExtent: maxScrollExtent ??
+            (hasContentDimensions ? this.maxScrollExtent : null),
+        pixels: pixels ?? (hasPixels ? this.pixels : null),
+        viewportDimension: viewportDimension ??
+            (hasViewportDimension ? this.viewportDimension : null),
+        axisDirection: axisDirection ?? this.axisDirection,
+        minRange: minRange ?? this.minRange,
+        maxRange: maxRange ?? this.maxRange,
+        correctionOffset: correctionOffset ?? this.correctionOffset,
+        devicePixelRatio: devicePixelRatio ?? this.devicePixelRatio);
   }
 
   final double minRange;
@@ -1048,18 +1052,18 @@ class _NestedScrollCoordinator
       }
     }
     return _NestedScrollMetrics(
-      minScrollExtent: _outerPosition!.minScrollExtent,
-      maxScrollExtent: _outerPosition!.maxScrollExtent +
-          innerPosition.maxScrollExtent -
-          innerPosition.minScrollExtent +
-          extra,
-      pixels: pixels,
-      viewportDimension: _outerPosition!.viewportDimension,
-      axisDirection: _outerPosition!.axisDirection,
-      minRange: minRange,
-      maxRange: maxRange,
-      correctionOffset: correctionOffset,
-    );
+        minScrollExtent: _outerPosition!.minScrollExtent,
+        maxScrollExtent: _outerPosition!.maxScrollExtent +
+            innerPosition.maxScrollExtent -
+            innerPosition.minScrollExtent +
+            extra,
+        pixels: pixels,
+        viewportDimension: _outerPosition!.viewportDimension,
+        axisDirection: _outerPosition!.axisDirection,
+        minRange: minRange,
+        maxRange: maxRange,
+        correctionOffset: correctionOffset,
+        devicePixelRatio: innerPosition.devicePixelRatio);
   }
 
   double unnestOffset(double value, _NestedScrollPosition source) {
